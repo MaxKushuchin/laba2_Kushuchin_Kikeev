@@ -1,18 +1,18 @@
 #include <iostream>
-#include <set>
+#include <set> 
 
 int main()
 {
     int n, num;
-    std::cin >> n;
+    std::cin >> n;  // Ввод количества чисел
 
-    std::set<int> coll;
+    std::set<int> coll;  // Создание множества для хранения уникальных чисел
 
     for(int i = 0; i < n; ++i){
-        std::cin >> num;
-        coll.insert(num);
+        std::cin >> num;  // Ввод числа
+        coll.insert(num);  // Добавление числа в множество
     }
 
-    std::cout << coll.size();
+    std::cout << coll.size();  // Вывод количества уникальных чисел
     return 0;
 }
