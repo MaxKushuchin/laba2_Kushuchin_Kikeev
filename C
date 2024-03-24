@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+
+std::string playGame(std::vector<int>& cards1, std::vector<int>& cards2) {
+    
+    int moves = 0;
+    
+    while (!cards1.empty() && !cards2.empty()) {
+        int topCard1 = cards1.front();
+        cards1.erase(cards1.begin());
+        int topCard2 = cards2.front();
+        cards2.erase(cards2.begin());
+        
+        if (topCard1 == 0 && topCard2 == 9){
+            cards1.push_back(topCard1);
+            cards1.push_back(topCard2);
+        }
+        else if (topCard1 == 9 && topCard2 == 0) {
+            cards2.push_back(topCard1);
+            cards2.push_back(topCard2);
+        } 
+        else if (topCard1 < topCard2) {
+            cards2.push_back(topCard1);
+            cards2.push_back(topCard2);
+        }
+        else {
+            cards1.push_back(topCard1);
+            cards1.push_back(topCard2);
+        }
+
+        moves++;
+        if (moves > 1000000) {
+            return "botva";
+        }
+    }
+
+    if (cards1.empty()) {
+        return "second " + std::to_string(moves);
+    } else {
+        return "first " + std::to_string(moves);
+    }
+}
+
+int main() {
+    std::vector<int> cards1, cards2;
+    int card;
+    
+    for (int i = 0; i < 5; ++i) {
+        std::cin >> card;
+        cards1.push_back(card);
+    }
+    for (int i = 0; i < 5; ++i) {
+        std::cin >> card;
+        cards2.push_back(card);
+    }
+
+    std::string result = playGame(cards1, cards2);
+    std::cout << result << std::endl;
+
+    return 0;
+}
