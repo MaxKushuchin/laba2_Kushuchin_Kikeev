@@ -1,24 +1,29 @@
-#include <iostream>
-#include <vector>
+#include <iostream> 
+#include <vector> 
 
+// Функция для игры в карточную игру
 std::string playGame(std::vector<int>& cards1, std::vector<int>& cards2) {
     
-    int moves = 0;
+    int moves = 0;  // Счетчик ходов
     
+    // Цикл игры, продолжается пока обе колоды не опустеют
     while (!cards1.empty() && !cards2.empty()) {
-        int topCard1 = cards1.front();
-        cards1.erase(cards1.begin());
-        int topCard2 = cards2.front();
-        cards2.erase(cards2.begin());
+        int topCard1 = cards1.front();  // Взять верхнюю карту из первой колоды
+        cards1.erase(cards1.begin());   // Удалить верхнюю карту из первой колоды
+        int topCard2 = cards2.front();  // Взять верхнюю карту из второй колоды
+        cards2.erase(cards2.begin());   // Удалить верхнюю карту из второй колоды
         
+        // если сумма карт равна 9 и 0, то перый выигрывает
         if (topCard1 == 0 && topCard2 == 9){
             cards1.push_back(topCard1);
             cards1.push_back(topCard2);
         }
+        // Если сумма карт равна 0 и 9, то второй выигрывает
         else if (topCard1 == 9 && topCard2 == 0) {
             cards2.push_back(topCard1);
             cards2.push_back(topCard2);
         } 
+        // Иначе побеждает тот, у которого верхняя карта колоды больше
         else if (topCard1 < topCard2) {
             cards2.push_back(topCard1);
             cards2.push_back(topCard2);
@@ -28,34 +33,38 @@ std::string playGame(std::vector<int>& cards1, std::vector<int>& cards2) {
             cards1.push_back(topCard2);
         }
 
-        moves++;
-        if (moves > 1000000) {
-            return "botva";
+        moves++;  // Увеличить количество ходов
+
+        if (moves > 1000000) { 
+            return "botva";  // Если на протяжении 10*6 ходов игра не заканчивается
         }
     }
 
+    // Определение победителя по окончании игры
     if (cards1.empty()) {
-        return "second " + std::to_string(moves);
+        return "second " + std::to_string(moves);  // Если первая колода опустела, второй побеждает
     } else {
-        return "first " + std::to_string(moves);
+        return "first " + std::to_string(moves);   // Иначе побеждает первый
     }
 }
 
 int main() {
-    std::vector<int> cards1, cards2;
+    std::vector<int> cards1, cards2;  // Создание двух колод карт
     int card;
     
+    // Заполнение первой колоды
     for (int i = 0; i < 5; ++i) {
-        std::cin >> card;
-        cards1.push_back(card);
+        std::cin >> card;  // Ввод карты
+        cards1.push_back(card);  // Добавление карты в первую колоду
     }
+    // Заполнение второй колоды
     for (int i = 0; i < 5; ++i) {
-        std::cin >> card;
-        cards2.push_back(card);
+        std::cin >> card;  // Ввод карты
+        cards2.push_back(card);  // Добавление карты во вторую колоду
     }
 
-    std::string result = playGame(cards1, cards2);
-    std::cout << result << std::endl;
+    std::string result = playGame(cards1, cards2);  // Выполнение игры
+    std::cout << result << std::endl;  // Вывод результата игры
 
     return 0;
 }
