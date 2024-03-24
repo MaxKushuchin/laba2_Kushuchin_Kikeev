@@ -1,0 +1,50 @@
+﻿#include <iostream>
+#include <string>
+#include <vector>
+
+// Функция для вычисления постфиксного выражения
+int evaluatePostfixExpression(const std::string& expression) {
+    std::vector<int> stack; // Стек для хранения операндов
+    std::string number = ""; // Строка для сбора чисел из выражения
+
+    for (char c : expression) {
+        if (c == ' ') {
+            if (!number.empty()) {
+                stack.push_back(std::stoi(number)); // Преобразуем строку в число и добавляем в стек
+                number = ""; // Обнуляем строку для следующего числа
+            }
+        }
+        else if (c >= '0' && c <= '9') {
+            number += c; // Собираем число из символов
+        }
+        else {
+            // Извлекаем два последних операнда из стека
+            int operand2 = stack.back();
+            stack.pop_back();
+            int operand1 = stack.back();
+            stack.pop_back();
+
+            // Выполняем операцию в зависимости от символа
+            if (c == '+') {
+                stack.push_back(operand1 + operand2);
+            }
+            else if (c == '-') {
+                stack.push_back(operand1 - operand2);
+            }
+            else if (c == '*') {
+                stack.push_back(operand1 * operand2);
+            }
+        }
+    }
+
+    return stack.back(); // Возвращаем результат вычисления
+}
+
+int main() {
+    std::string expression;
+    std::getline(std::cin, expression); // Вводится выражение в постфиксной записи
+
+    int result = evaluatePostfixExpression(expression); // Реализация функции
+    std::cout << result << std::endl; // Вывод результата
+
+    return 0;
