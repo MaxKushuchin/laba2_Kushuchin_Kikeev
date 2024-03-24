@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+
+// Функция для проверки правильности расстановки скобок в строке
+bool Bracket(const std::string& sequence) {
+    std::vector<char> brackets; // Вектор для хранения открывающих скобок
+
+    // Перебираем каждый символ в строке
+    for (char bracket : sequence) {
+        // Если текущий символ - открывающая скобка, добавляем ее в вектор
+        if (bracket == '(' || bracket == '[' || bracket == '{') {
+            brackets.push_back(bracket);
+        }
+        else {
+            // Если вектор пустой, значит нет открывающей скобки для текущей закрывающей
+            if (brackets.empty()) {
+                return false;
+            }
+
+            // Иначе, извлекаем последнюю открывающую скобку из вектора
+            char openBracket = brackets.back();
+            brackets.pop_back();
+
+            // Проверяем соответствие типов скобок
+            if ((bracket == ')' && openBracket != '(') || 
+                (bracket == ']' && openBracket != '[') || 
+                (bracket == '}' && openBracket != '{')) {
+                return false; // Несовпадение типов скобок
+            }
+        }
+    }
+
+    // Если вектор пустой, значит все скобки были закрыты
+    return brackets.empty();
+}
+
+int main() {
+    std::string input;
+    std::cin >> input;
+
+    // Проверяем строку на правильность расстановки скобок и выводим результат
+    if (Bracket(input)) {
+        std::cout << "yes" << std::endl;
+    }
+    else {
+        std::cout << "no" << std::endl;
+    }
+
+    return 0;
+}
