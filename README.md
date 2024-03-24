@@ -1,1 +1,0 @@
-# laba2_Kushuchin_Kikeev
